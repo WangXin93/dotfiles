@@ -23,6 +23,9 @@ Plug 'junegunn/seoul256.vim'
 " Initialize plugin system
 call plug#end()
 
+"=============================Generals================================  
+set encoding=utf-8 
+
 "=============================Mappings================================
 let mapleader=","
 noremap <Leader>ev :e $MYVIMRC<cr>
