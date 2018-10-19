@@ -37,3 +37,8 @@ PROMPT_COMMAND="history -a;history -c;history -r; $PROMPT_COMMAND"
 export EDITOR=vim
 alias vi='vim'
 
+#====================Force tmux have 256 color=================
+alias tmux='tmux -2'
+if [ ! -n "$TMUX" ]; # if not in tmux
+  then export TERM=xterm-256color
+fi

@@ -10,24 +10,30 @@ Plug 'ctrlpvim/ctrlp.vim'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-fugitive'
-Plug 'vim-scripts/indentpython.vim'
 Plug 'scrooloose/nerdcommenter'
 Plug 'ctrlpvim/ctrlp.vim'
 Plug 'mileszs/ack.vim'
 Plug 'skwp/greplace.vim'
 Plug 'majutsushi/tagbar'
+Plug 'easymotion/vim-easymotion'
+Plug 'davidhalter/jedi-vim'
+Plug 'ervandew/supertab'
+Plug 'benmills/vimux'
+Plug 'jgdavey/tslime.vim'
+Plug 'jpalardy/vim-slime'
+Plug 'Vimjas/vim-python-pep8-indent'
+Plug 'tweekmonster/braceless.vim'
+Plug 'jiangmiao/auto-pairs'
+Plug 'w0rp/ale'
+" Plug 'ambv/black'
 
 " Plugin outside ~/.vim/plugged with post-update hook
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
-
-" Seoul colorscheme
-Plug 'junegunn/seoul256.vim'
 
 "Plug 'vim-airline/vim-airline'
 "Plug 'vim-airline/vim-airline-themes'
 "Plug 'edkolev/tmuxline.vim'
 
-" Plug 'vim-syntastic/syntastic'
 " Plug 'Valloric/YouCompleteMe'
 
 
@@ -48,6 +54,15 @@ set incsearch
 syntax enable 
 " autocompletion menu turn on
 set wildmenu
+" tmuxline.vim theme
+let g:tmuxline_theme = 'molokai'
+" airline theme
+let g:airline_theme='molokai'
+
+" Underline for currentline
+set cursorline
+autocmd InsertLeave * se nocul  " 用浅色高亮当前行
+autocmd InsertEnter * se cul    " 用浅色高亮当前行
 
 "==============================Abbreviate============================  
 "Shortcut for main in Python
@@ -91,8 +106,6 @@ vnoremap <silent> -# :s/^#//<cr>:noh<cr>
 nmap <Leader>k mmOimport ipdb; ipdb.set_trace():w`m
 imap <Leader>k <esc>mmOimport ipdb; ipdb.set_trace():w`m
 
-"Set map to python nosetest
-nmap <leader>n :!nosetests %<cr>
 "Set map to python doctest
 nmap <leader>ds :!python3 -m doctest %<cr>
 "Set map to python ipdb
@@ -106,10 +119,10 @@ inoremap <leader>dt <C-R>=strftime('%Y-%m-%d %H:%M:%S %z')<CR>
 nnoremap <leader>b :TagbarToggle<CR>
 
 "=============================Visuals=================================
-colorscheme seoul256
+colorscheme atom-dark-256
 
 " Highlight column number 110 with color
-set colorcolumn=110
+set colorcolumn=100
 highlight ColorColumn ctermbg=darkgray
 
 "=============================Auto-commands===========================
@@ -124,7 +137,6 @@ augroup END
 let g:ctrlp_match_window = 'top,order:ttb,min:1,max:30,results:30'
 set wildignore+=*/tmp/*,*.so,*.swp,*.zip,*.pyc     " MacOSX/Linux
 
-let g:ctrlp_custom_ignore = '\v[\/]\.(git|hg|svn)$'
 let g:ctrlp_custom_ignore = {
   \ 'dir':  '\v[\/]\.(git|hg|svn)$',
   \ 'file': '\v\.(exe|so|dll)$',
@@ -176,29 +188,50 @@ let g:NERDCustomDelimiters = { 'c': { 'left': '/**','right': '*/' } }
 let g:NERDCommentEmptyLines = 1
 " Enable trimming of trailing whitespace when uncommenting
 let g:NERDTrimTrailingWhitespace = 1
-" Enable NERDCommenterToggle to check all selected lines is commented or not
+
+" tmuxline seperator
+let g:tmuxline_separators = {
+    \ 'left' : '',
+    \ 'left_alt': '>',
+    \ 'right' : '',
+    \ 'right_alt' : '<',
+    \ 'space' : ' '}" Enable NERDCommenterToggle to check all selected lines is commented or not
 let g:NERDToggleCheckAllLines = 1
 
-" Setting YCM
-" let g:ycm_global_ycm_extra_conf='~/.vim/plugged/YouCompleteMe/third_party/ycmd/cpp/ycm/.ycm_extra_conf.py'
+" jedi use tab for autocompletion
+let g:SuperTabDefaultCompletionType = "context"
 
-" Setting Syntastic
-" set statusline+=%#warningmsg#
-" set statusline+=%{SyntasticStatuslineFlag()}
-" set statusline+=%*
-"
-" let g:syntastic_always_populate_loc_list = 1
-" let g:syntastic_auto_loc_list = 1
-" let g:syntastic_check_on_open = 1
-" let g:syntastic_check_on_wq = 0
+" jedi configuration
+let g:jedi#use_tabs_not_buffers = 1
+let g:jedi#popup_on_dot = 0
+let g:jedi#popup_select_first = 0
+let g:jedi#show_call_signatures = "0"
+let g:jedi#goto_command = "<leader>gt"
+let g:jedi#goto_assignments_command = "<leader>ga"
+let g:jedi#goto_definitions_command = "<leader>gd"
 
+" tslime.vim
+let g:tslime_always_current_session = 1
+let g:tslime_always_current_window = 1
+" vmap <Leader>vs <Plug>SendSelectionToTmux
+nmap <Leader>vs <Plug>NormalModeSendToTmux
+nmap <Leader>vg <Plug>SetTmuxVars
+nmap <Leader>vc :Tmux echo hello<cr>
+
+" vim-slime
+" Now, use comma vs to send selected region or single line to pane 0.1
+let g:slime_target = "tmux"
+let g:slime_no_mappings = 1
+xmap <Leader>vs <Plug>SlimeRegionSend
+nmap <Leader>vp <Plug>SlimeParagraphSend
+nmap <Leader>vr <Plug>SlimeConfig
+let g:slime_python_ipython = 1
+let g:slime_default_config = {"socket_name": "default", "target_pane": "1"}
+let g:slime_dont_ask_default = 1
+
+" Use Braceless
+autocmd FileType python BracelessEnable +indent
 "=============================Config CPP==============================
-" Indentation rule
-set tabstop=4
-set softtabstop=4
-set shiftwidth=4
-set noexpandtab
-
 " Custom make arguments
 set makeprg=make\ -C\ build\ -j9
 nnoremap <F5> :make<cr>
@@ -206,5 +239,4 @@ nnoremap <F5> :make<cr>
 
 " Set path for browsing header files with gf command
 let &path.="src/include,/usr/local/include,/usr/include"
-
 
