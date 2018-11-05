@@ -23,19 +23,18 @@ Plug 'jgdavey/tslime.vim'
 Plug 'jpalardy/vim-slime'
 Plug 'Vimjas/vim-python-pep8-indent'
 Plug 'tweekmonster/braceless.vim'
-Plug 'jiangmiao/auto-pairs'
+"Plug 'jiangmiao/auto-pairs'
 Plug 'w0rp/ale'
-" Plug 'ambv/black'
+"Plug 'ambv/black'
 
 " Plugin outside ~/.vim/plugged with post-update hook
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 
-"Plug 'vim-airline/vim-airline'
-"Plug 'vim-airline/vim-airline-themes'
-"Plug 'edkolev/tmuxline.vim'
+Plug 'vim-airline/vim-airline'
+Plug 'vim-airline/vim-airline-themes'
+Plug 'edkolev/tmuxline.vim'
 
 " Plug 'Valloric/YouCompleteMe'
-
 
 " Initialize plugin system
 call plug#end()
@@ -59,10 +58,18 @@ let g:tmuxline_theme = 'molokai'
 " airline theme
 let g:airline_theme='molokai'
 
+colorscheme atom-dark-256
+
+" Highlight column number 110 with color
+set colorcolumn=100
+highlight ColorColumn ctermbg=darkgray
+
 " Underline for currentline
 set cursorline
-autocmd InsertLeave * se nocul  " 用浅色高亮当前行
-autocmd InsertEnter * se cul    " 用浅色高亮当前行
+autocmd WinLeave * se nocul  " 用浅色高亮当前行
+autocmd WinEnter * se cul    " 用浅色高亮当前行
+hi clear CursorLine
+hi CursorLine gui=underline cterm=underline
 
 "==============================Abbreviate============================  
 "Shortcut for main in Python
@@ -118,13 +125,6 @@ inoremap <leader>dt <C-R>=strftime('%Y-%m-%d %H:%M:%S %z')<CR>
 " Shortcut for toggle tagbar
 nnoremap <leader>b :TagbarToggle<CR>
 
-"=============================Visuals=================================
-colorscheme atom-dark-256
-
-" Highlight column number 110 with color
-set colorcolumn=100
-highlight ColorColumn ctermbg=darkgray
-
 "=============================Auto-commands===========================
 "Automatically source the Vimrc file on save."
 
@@ -132,6 +132,7 @@ augroup autosourcing
     autocmd!
     autocmd BufWritePost .vimrc source %
 augroup END
+
 "=============================Plugin setting==========================
 " CtrlP
 let g:ctrlp_match_window = 'top,order:ttb,min:1,max:30,results:30'
@@ -239,4 +240,3 @@ nnoremap <F5> :make<cr>
 
 " Set path for browsing header files with gf command
 let &path.="src/include,/usr/local/include,/usr/include"
-
