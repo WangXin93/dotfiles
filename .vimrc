@@ -25,6 +25,8 @@ Plug 'Vimjas/vim-python-pep8-indent'
 Plug 'tweekmonster/braceless.vim'
 "Plug 'jiangmiao/auto-pairs'
 Plug 'w0rp/ale'
+Plug 'vim-scripts/ReplaceWithRegister'
+Plug 'tpope/vim-commentary'
 "Plug 'ambv/black'
 
 " Plugin outside ~/.vim/plugged with post-update hook
@@ -110,8 +112,10 @@ vnoremap <silent> # :s/^/#/<cr>:noh<cr>
 vnoremap <silent> -# :s/^#//<cr>:noh<cr>
 
 "Set map to quickly add ipdb break_point
-nmap <Leader>k mmOimport ipdb; ipdb.set_trace():w`m
-imap <Leader>k <esc>mmOimport ipdb; ipdb.set_trace():w`m
+nmap <Leader>k mmOimport ipdb; ipdb.set_trace():w
+`m
+imap <Leader>k <esc>mmOimport ipdb; ipdb.set_trace():w
+`m
 
 "Set map to python doctest
 nmap <leader>ds :!python3 -m doctest %<cr>
