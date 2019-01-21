@@ -1,0 +1,3 @@
+#!/usr/bin/env sh
+find . -name "*.pyc" | xargs /usr/bin/rm -rvf                                   
+find . -name "__pycache__" -type d -exec /usr/bin/rm -rvf {} +
