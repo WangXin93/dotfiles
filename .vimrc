@@ -10,7 +10,6 @@ Plug 'ctrlpvim/ctrlp.vim'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-fugitive'
-Plug 'scrooloose/nerdcommenter'
 Plug 'ctrlpvim/ctrlp.vim'
 Plug 'mileszs/ack.vim'
 Plug 'skwp/greplace.vim'
@@ -23,10 +22,11 @@ Plug 'jgdavey/tslime.vim'
 Plug 'jpalardy/vim-slime'
 Plug 'Vimjas/vim-python-pep8-indent'
 Plug 'tweekmonster/braceless.vim'
-"Plug 'jiangmiao/auto-pairs'
 Plug 'w0rp/ale'
 Plug 'vim-scripts/ReplaceWithRegister'
 Plug 'tpope/vim-commentary'
+Plug 'junegunn/vim-easy-align'
+Plug 'SirVer/ultisnips'
 "Plug 'ambv/black'
 
 " Plugin outside ~/.vim/plugged with post-update hook
@@ -35,8 +35,6 @@ Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'edkolev/tmuxline.vim'
-
-" Plug 'Valloric/YouCompleteMe'
 
 " Initialize plugin system
 call plug#end()
@@ -51,6 +49,14 @@ set splitright
 "Search
 set hlsearch
 set incsearch
+
+"line number
+" set number
+" set relativenumber
+
+filetype plugin indent on
+
+set pastetoggle=<F3>
 "==============================Visual================================  
 syntax enable 
 " autocompletion menu turn on
@@ -80,6 +86,11 @@ abbreviate ifm if __name__ == "__main__":
 "=============================Mappings================================
 let mapleader=","
 noremap <Leader>ev :e $MYVIMRC<cr>
+
+" Set map to toggle ALE
+nmap <Leader>ae :ALEToggle<cr>
+" Default turn off ALE
+let g:ale_enabled=0
 
 "Make it easy to edit the Vimrc file"
 nmap <Leader>ev :tabedit $MYVIMRC<cr> 
@@ -112,8 +123,6 @@ vnoremap <silent> # :s/^/#/<cr>:noh<cr>
 vnoremap <silent> -# :s/^#//<cr>:noh<cr>
 
 "Set map to quickly add ipdb break_point
-nmap <Leader>k mmOimport ipdb; ipdb.set_trace():w
-`m
 imap <Leader>k <esc>mmOimport ipdb; ipdb.set_trace():w
 `m
 
@@ -129,6 +138,8 @@ inoremap <leader>dt <C-R>=strftime('%Y-%m-%d %H:%M:%S %z')<CR>
 " Shortcut for toggle tagbar
 nnoremap <leader>b :TagbarToggle<CR>
 
+" Transform py2 print to py2 print
+nmap <leader>3 :%s/\(print\) \(.*$\)/\1(\2)/gc
 "=============================Auto-commands===========================
 "Automatically source the Vimrc file on save."
 
@@ -178,28 +189,21 @@ let g:tagbar_left = 0
 " fzf vim plugin config
 set rtp+=~/.fzf
 
-" Setting nerdcommenter
-" Add spaces after comment delimiters by default
-let g:NERDSpaceDelims = 1
-" Use compact syntax for prettified multi-line comments
-let g:NERDCompactSexyComs = 1
-" Align line-wise comment delimiters flush left instead of following code indentation
-let g:NERDDefaultAlign = 'left'
-" Set a language to use its alternate delimiters by default
-let g:NERDAltDelims_java = 1
-" Add your own custom formats or override the defaults
-let g:NERDCustomDelimiters = { 'c': { 'left': '/**','right': '*/' } }
-" Allow commenting and inverting empty lines (useful when commenting a region)
-let g:NERDCommentEmptyLines = 1
-" Enable trimming of trailing whitespace when uncommenting
-let g:NERDTrimTrailingWhitespace = 1
-
 " tmuxline seperator
 let g:tmuxline_separators = {
     \ 'left' : '',
     \ 'left_alt': '>',
     \ 'right' : '',
     \ 'right_alt' : '<',
+    \ 'space' : ' '}
+" tmuxline status line format
+let g:tmuxline_preset = {
+      \'a'    : '#S',
+      \'win'  : '#I:#W#F',
+      \'cwin' : '#I:#W#F',
+      \'y'    : ['%Y-%m-%d', '%R'],
+      \'z'    : '#H'}
+
     \ 'space' : ' '}" Enable NERDCommenterToggle to check all selected lines is commented or not
 let g:NERDToggleCheckAllLines = 1
 
@@ -208,12 +212,15 @@ let g:SuperTabDefaultCompletionType = "context"
 
 " jedi configuration
 let g:jedi#use_tabs_not_buffers = 1
+let g:jedi#smart_auto_mappings = 0
 let g:jedi#popup_on_dot = 0
 let g:jedi#popup_select_first = 0
 let g:jedi#show_call_signatures = "0"
 let g:jedi#goto_command = "<leader>gt"
 let g:jedi#goto_assignments_command = "<leader>ga"
 let g:jedi#goto_definitions_command = "<leader>gd"
+let g:jedi#usages_command = "<leader>gu"
+let g:jedi#rename_command = "<leader>gr"
 
 " tslime.vim
 let g:tslime_always_current_session = 1
@@ -236,6 +243,21 @@ let g:slime_dont_ask_default = 1
 
 " Use Braceless
 autocmd FileType python BracelessEnable +indent
+
+" vim-easy-align config                                                                             
+" Start interactive EasyAlign in visual mode (e.g. vipga)                                           
+xmap ga <Plug>(EasyAlign)                                                                           
+" Start interactive EasyAlign for a motion/text object (e.g. gaip)                                  
+nmap ga <Plug>(EasyAlign) 
+
+" Trigger configuration. Do not use <tab> if you use https://github.com/Valloric/YouCompleteMe.
+let g:UltiSnipsExpandTrigger="<c-f>"
+let g:UltiSnipsJumpForwardTrigger="<c-f>"
+let g:UltiSnipsJumpBackwardTrigger="<c-b>"
+" If you want :UltiSnipsEdit to split your window.
+let g:UltiSnipsEditSplit="vertical"
+let g:UltiSnipsSnippetsDir="~/.vim/UltiSnips"
+
 "=============================Config CPP==============================
 " Custom make arguments
 set makeprg=make\ -C\ build\ -j9
