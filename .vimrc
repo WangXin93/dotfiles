@@ -27,7 +27,7 @@ Plug 'vim-scripts/ReplaceWithRegister'
 Plug 'tpope/vim-commentary'
 Plug 'junegunn/vim-easy-align'
 Plug 'SirVer/ultisnips'
-"Plug 'ambv/black'
+Plug 'honza/vim-snippets'
 
 " Plugin outside ~/.vim/plugged with post-update hook
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
@@ -123,8 +123,8 @@ vnoremap <silent> # :s/^/#/<cr>:noh<cr>
 vnoremap <silent> -# :s/^#//<cr>:noh<cr>
 
 "Set map to quickly add ipdb break_point
-imap <Leader>k <esc>mmOimport ipdb; ipdb.set_trace():w
-`m
+nmap <Leader>k mmOimport ipdb; ipdb.set_trace():w`m
+imap <Leader>k <esc>mmOimport ipdb; ipdb.set_trace():w`m
 
 "Set map to python doctest
 nmap <leader>ds :!python3 -m doctest %<cr>
@@ -204,7 +204,7 @@ let g:tmuxline_preset = {
       \'y'    : ['%Y-%m-%d', '%R'],
       \'z'    : '#H'}
 
-    \ 'space' : ' '}" Enable NERDCommenterToggle to check all selected lines is commented or not
+" Enable NERDCommenterToggle to check all selected lines is commented or not
 let g:NERDToggleCheckAllLines = 1
 
 " jedi use tab for autocompletion
