@@ -74,10 +74,10 @@ highlight ColorColumn ctermbg=darkgray
 
 " Underline for currentline
 set cursorline
-autocmd WinLeave * se nocul  " 用浅色高亮当前行
-autocmd WinEnter * se cul    " 用浅色高亮当前行
 hi clear CursorLine
 hi CursorLine gui=underline cterm=underline
+autocmd WinLeave * se nocul 
+autocmd WinEnter * se cul | hi clear CursorLine | hi CursorLine gui=underline cterm=underline
 
 "==============================Abbreviate============================  
 "Shortcut for main in Python
@@ -266,3 +266,33 @@ nnoremap <F5> :make<cr>
 
 " Set path for browsing header files with gf command
 let &path.="src/include,/usr/local/include,/usr/include"
+
+""""""""""""""""""""""
+"Quick Compile
+""""""""""""""""""""""
+map <F6> :call CompileRunGcc()<CR>
+func! CompileRunGcc()
+    exec "w"
+    if &filetype == 'c'
+        exec "!g++ % -o %<"
+        exec "!time ./%<"
+    elseif &filetype == 'cpp'
+        exec "!g++ % -o %<"
+        exec "!time ./%<"
+    elseif &filetype == 'java'
+        exec "!javac %"
+        exec "!time java %<"
+    elseif &filetype == 'sh'
+        :!time bash %
+    elseif &filetype == 'python'
+        exec "!time python3 %"
+    elseif &filetype == 'html'
+        exec "!firefox % &"
+    elseif &filetype == 'go'
+"        exec "!go build %<"
+        exec "!time go run %"
+    elseif &filetype == 'mkd'
+        exec "!~/.vim/markdown.pl % > %.html &"
+        exec "!firefox %.html &"
+    endif
+endfunc
