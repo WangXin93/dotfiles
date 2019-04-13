@@ -1,6 +1,6 @@
 SESSION=dev
 tmux new-session -d -s $SESSION
-tmux rename-window -t $SESSION:0 -n 'editor'
+tmux rename-window -t $SESSION:0 'editor'
 tmux split-window -h
 tmux select-pane -L
 tmux send-keys 'vim' C-m

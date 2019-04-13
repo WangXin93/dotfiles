@@ -32,7 +32,10 @@ fi
 curl https://beyondgrep.com/ack-2.22-single-file > ~/bin/ack && chmod 0755 ~/bin/ack
 
 # Copy my command line tools
-cp bin/* ~/bin
+for app in `ls bin`; do
+    chmod 0755 bin/$app
+done
+cp -p bin/* ~/bin
 
 # Install xclip for remote copy in tmux
 # sudo apt install xclip -y
