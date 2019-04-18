@@ -62,9 +62,9 @@ syntax enable
 " autocompletion menu turn on
 set wildmenu
 " tmuxline.vim theme
-let g:tmuxline_theme = 'molokai'
+let g:tmuxline_theme = 'dark'
 " airline theme
-let g:airline_theme='molokai'
+let g:airline_theme='dark'
 
 colorscheme atom-dark-256
 
@@ -94,7 +94,8 @@ let g:ale_enabled=0
 
 "Make it easy to edit the Vimrc file"
 nmap <Leader>ev :tabedit $MYVIMRC<cr> 
-nmap <Leader><space> :nohlsearch<cr>
+" Toggle highlighting of search
+nmap <Leader><space> :set hlsearch!<cr>
 
 " Make it easy to write buffer
 inoremap <Leader>s <esc>:w<cr>
@@ -146,6 +147,11 @@ nmap <leader>3 :%s/\(print\) \(.*$\)/\1(\2)/gc
 augroup autosourcing
     autocmd!
     autocmd BufWritePost .vimrc source %
+augroup END
+
+augroup FileTypeIndent
+    au!
+    au FileType vim,html,scss,css,cpp,c,javascript setlocal expandtab shiftwidth=4 softtabstop=4 tabstop=8 autoindent
 augroup END
 
 "=============================Plugin setting==========================
