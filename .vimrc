@@ -62,9 +62,9 @@ syntax enable
 " autocompletion menu turn on
 set wildmenu
 " tmuxline.vim theme
-let g:tmuxline_theme = 'molokai'
+let g:tmuxline_theme = 'dark'
 " airline theme
-let g:airline_theme='molokai'
+let g:airline_theme='dark'
 
 colorscheme atom-dark-256
 
@@ -87,8 +87,6 @@ abbreviate ifm if __name__ == "__main__":
 let mapleader=","
 noremap <Leader>ev :e $MYVIMRC<cr>
 
-" Set map to toggle ALE
-nmap <Leader>ae :ALEToggle<cr>
 " Default turn off ALE
 let g:ale_enabled=0
 
