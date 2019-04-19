@@ -14,6 +14,7 @@ then
     mkdir -p ~/.vim/colors
 fi
 cp ./.vim/colors/* ~/.vim/colors
+cp ./.vim/plugin/grep-operator.vim ~/.vim/plugin/
 
 # Config .bashrc
 cp ./git-* ~
