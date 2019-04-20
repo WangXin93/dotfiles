@@ -122,8 +122,8 @@ vnoremap <silent> # :s/^/#/<cr>:noh<cr>
 vnoremap <silent> -# :s/^#//<cr>:noh<cr>
 
 "Set map to quickly add ipdb break_point
-nmap <Leader>k mmOimport ipdb; ipdb.set_trace():w`m
-imap <Leader>k <esc>mmOimport ipdb; ipdb.set_trace():w`m
+au FileType python nmap <Leader>k mmOimport ipdb; ipdb.set_trace():w`m
+au FileType python imap <Leader>k <esc>mmOimport ipdb; ipdb.set_trace():w`m
 
 "Set map to python doctest
 nmap <leader>ds :!python3 -m doctest %<cr>
