@@ -42,6 +42,9 @@ call plug#end()
 "=============================Generals================================  
 set encoding=utf-8 
 
+" Fix backspace in vim
+set backspace=indent,eol,start
+
 "Split Management
 set splitbelow
 set splitright
