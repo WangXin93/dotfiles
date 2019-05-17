@@ -47,6 +47,9 @@ set encoding=utf-8
 " Fix backspace in vim
 set backspace=indent,eol,start
 
+" Use mouse in xterm, use ``set mouse=`` to cancel
+set mouse=a
+
 "Split Management
 set splitbelow
 set splitright
