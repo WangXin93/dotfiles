@@ -76,6 +76,9 @@ let g:airline_theme='dark'
 
 colorscheme atom-dark-256
 
+" 设置空白字符的视觉提示
+set list listchars=extends:❯,precedes:❮,tab:▸\ ,trail:˽
+
 " Highlight column number 110 with color
 set colorcolumn=100
 highlight ColorColumn ctermbg=darkgray
