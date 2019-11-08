@@ -731,11 +731,12 @@ endsnippet
 ############################
 # pytorch training framework
 ############################
-snippet itorch "import denpendency for pytorch"
+snippet itorch "import denpendency for pytorch" b
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
 from torch.utils.data import Dataset, DataLoader
+$0
 endsnippet
 
 snippet dataset "class for define torch.utils.data.Dataset" b
@@ -771,7 +772,7 @@ write_torch_init_body(args, t[1], t[2], snip)
 		$0
 endsnippet
 
-snippet module "class for inherit torch.nn.Module"
+snippet module "class for inherit torch.nn.Module" b
 import torch.nn as nn
 
 class ${1:MyModule}(${2:nn.Module}):
@@ -799,6 +800,27 @@ write_torch_init_body(args, t[1], t[2], snip)
 	def forward(self, inp):
 		pass
 		$0
+endsnippet
+
+snippet args "arguments parser for training" b
+import argparse
+import sys
+
+main_arg_parser = argparse.ArgumentParser(description="parser for the model")
+subparsers = main_arg_parser.add_subparsers(title="subcommands", dest="subcommand")
+
+train_arg_parser = subparsers.add_parser("train", help="parser for training arguments")
+train_arg_parser.add_argument("--epochs", type=int, default=2, help="number of training epochs, default is 2")
+
+eval_arg_parser = subparsers.add_parser("eval", help="parser for evaluation arguments")
+eval_arg_parser.add_argument("--model", type=str, required=True, help="trained model for evaluation")
+
+args = main_arg_parser.parse_args()
+
+if args.subcommand is None:
+	print("ERROR: specify either train or eval")
+	sys.exit(1)
+$0
 endsnippet
 
 # vim:ft=snippets:
