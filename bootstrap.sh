@@ -9,6 +9,7 @@ curl -fLo ~/.vim/autoload/plug.vim --create-dirs \
 
 ln ./.tmux.conf ~/.tmux.conf
 ln ./.vimrc ~/.vimrc
+ln ./.vim/pluginsVimPlug.vim ~/.pluginsVimPlug.vim
 if [ ! -d ~/.vim/colors ]
 then
     mkdir -p ~/.vim/colors
@@ -44,8 +45,3 @@ cp -p bin/* ~/bin
 # vim -E -s << EOF
 #     :PlugInstall
 # EOF
-#
-# # Compile YCM
-# sudo apt-get install -y build-essential cmake
-# sudo apt-get install -y python-dev python3-dev
-# cd ~/.vim/plugged/YouCompleteMe/ && ./install.py --clang-completer

@@ -28,7 +28,6 @@ PROMPT_COMMAND="history -a;history -c;history -r; $PROMPT_COMMAND"
 
 #====================Define less editor========================
 export EDITOR=vim
-alias vi='vim'
 alias v='vim'
 alias t='tmux'
 
