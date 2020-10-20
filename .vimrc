@@ -9,7 +9,7 @@ so ~/.vim/pluginsVimPlug.vim
 
 " let g:python3_host_prog = '/usr/local/bin/python3'
 
-set encoding=utf-8 
+set encoding=utf-8                          " UTF8 support"
 
 set clipboard=unnamed                       " Want paste to/from other app"
 
@@ -33,7 +33,7 @@ set splitright
 set hlsearch
 set incsearch
 
-" Use mouse in xterm, use ``set mouse=`` to cancel
+" Set mouse support
 set mouse=a
 
 filetype plugin indent on
@@ -47,8 +47,7 @@ set foldlevel=99
 nmap <space> za
 
 "==================Visuals======================"
-
-syntax enable 
+syntax enable
 
 " 设置空白字符的视觉提示
 set list listchars=extends:❯,precedes:❮,tab:▸\ ,trail:˽
@@ -81,10 +80,10 @@ highlight SignColumn ctermbg=bg guibg=bg
 
 " Underline for currentline
 set cursorline
+autocmd WinLeave * se nocul  " 用浅色高亮当前行
+autocmd WinEnter * se cul    " 用浅色高亮当前行
 hi clear CursorLine
 hi CursorLine gui=underline cterm=underline
-autocmd WinLeave * se nocul 
-autocmd WinEnter * se cul | hi clear CursorLine | hi CursorLine gui=underline cterm=underline
 
 "Turn off error bell"
 set noerrorbells visualbell t_vb=
@@ -136,12 +135,12 @@ nmap <Leader><space> :set hlsearch!<cr>
 "Make it easy to Add blank line"
 nnoremap<C-J> mmo<esc>`m
 nnoremap<C-K> mmO<esc>`m<C-E>
-"Make it easy to switch between windows"
-nnoremap<C-H> <C-W><C-H>
-nnoremap<C-L> <C-W><C-L>
+" Make it easy to switch between windows"
+" nnoremap<C-H> <C-W><C-H>
+" nnoremap<C-L> <C-W><C-L>
 
-" Make it easy to open NERDTree
-noremap <Leader>t :NERDTreeToggle<cr>
+"Make NERDTree easier to toggle"
+nnoremap <leader>t :NERDTreeToggle<cr>
 let g:NERDTreeNodeDelimiter = "\u00a0" " scrooloose/nerdtree/issues/928
 
 "Set F12 to preview LaTex file"
@@ -192,6 +191,7 @@ nmap <leader>3 :%s/\(print\) \(.*$\)/\1(\2)/gc
 " abbreviate ifm if __name__ == "__main__": 
 
 "===================Auto-Commands==============="
+
 "Automatically source the Vimrc file on save."
 augroup autosourcing
 autocmd!
@@ -214,17 +214,17 @@ augroup END
 
 "===================Plugin setting=============="
 " Set frequency for LaTex auto update"
-autocmd FileType tex setl updatetime=1
+" autocmd FileType tex setl updatetime=1
 
 " CtrlP
 "let g:ctrlp_custom_ignore = 'node_modules\DS_Store\|git'
-let g:ctrlp_match_window = 'top,order:ttb,min:1,max:30,results:30'
-set wildignore+=*/tmp/*,*.so,*.swp,*.zip,*.pyc     " MacOSX/Linux
-let g:ctrlp_custom_ignore = {
-  \ 'dir':  '\v[\/]\.(git|hg|svn)$',
-  \ 'file': '\v\.(exe|so|dll)$',
-  \ 'link': 'some_bad_symbolic_links',
-  \ }
+" let g:ctrlp_match_window = 'top,order:ttb,min:1,max:30,results:30'
+" set wildignore+=*/tmp/*,*.so,*.swp,*.zip,*.pyc     " MacOSX/Linux
+" let g:ctrlp_custom_ignore = {
+"   \ 'dir':  '\v[\/]\.(git|hg|svn)$',
+"   \ 'file': '\v\.(exe|so|dll)$',
+"   \ 'link': 'some_bad_symbolic_links',
+"   \ }
 
 " Use NERDTree as split explorer instead of file drawer or prevent it
 " http://vimcasts.org/blog/2013/01/oil-and-vinegar-split-windows-and-project-drawer/
@@ -233,7 +233,7 @@ let NERDTreeHijackNetrw = 1
 " let g:ranger_replace_netrw = 1
 
 " greplace.vim
-set grepprg=ack             "Use Ack for the search."
+set grepprg=ack                  "Use Ack for the search."
 let g:grep_cmd_opts = '--noheading'
 
 " ack.vim command abbreviation
@@ -297,13 +297,13 @@ let g:tmuxline_preset = {
 
 " vim-slime
 " Now, use comma vs to send selected region or single line to pane 0.1
-" let g:slime_target = "tmux"
-" let g:slime_python_ipython = 1
-" let g:slime_default_config = {"socket_name": "default", "target_pane": "1"}
-" let g:slime_dont_ask_default = 1
+let g:slime_target = "tmux"
+let g:slime_python_ipython = 1
+let g:slime_default_config = {"socket_name": get(split($TMUX, ","), 0), "target_pane": ":.2"}
+let g:slime_dont_ask_default = 1
 
 " Start braceless
-autocmd FileType python,coffee BracelessEnable +indent
+" autocmd FileType python,coffee BracelessEnable +indent
 
 " Set map for vim-easy-align
 " Start interactive EasyAlign in visual mode (e.g. vipga)
@@ -311,8 +311,7 @@ xmap ga <Plug>(EasyAlign)
 " Start interactive EasyAlign for a motion/text object (e.g. gaip)
 nmap ga <Plug>(EasyAlign)
 
-" Trigger configuration. Do not use <tab> if you use
-" https://github.com/Valloric/YouCompleteMe.
+" Trigger configuration. Do not use <tab> if you use https://github.com/Valloric/YouCompleteMe.
 let g:UltiSnipsExpandTrigger="<c-f>"
 let g:UltiSnipsJumpForwardTrigger="<c-f>"
 let g:UltiSnipsJumpBackwardTrigger="<c-b>"
@@ -325,7 +324,7 @@ let g:UltiSnipsSnippetsDir="~/.vim/UltiSnips/"
 
 " vim-autoformat setting
 " useful commands are: Autoformat, retab, RemoveTrailingSpaces
-let g:formatter_yapf_style = 'google'
+" let g:formatter_yapf_style = 'google'
 
 " vim pydocstring style
 let g:pydocstring_formatter = 'google'
@@ -334,10 +333,10 @@ let g:pydocstring_formatter = 'google'
 nmap <silent> <C-_> <Plug>(pydocstring)
 
 " Emmet for all mode and only for just html/css
-let g:user_emmet_mode='a'    "enable all function in all mode.
-let g:user_emmet_install_global = 0
+" let g:user_emmet_mode='a'    "enable all function in all mode.
+" let g:user_emmet_install_global = 0
 autocmd FileType html,css EmmetInstall
-let g:user_emmet_leader_key='<C-M>'
+" let g:user_emmet_leader_key='<C-Y>'
 
 "================ coc.nvim ====================="
 " TextEdit might fail if hidden is not set.
@@ -375,8 +374,8 @@ let col = col('.') - 1
 return !col || getline('.')[col - 1]  =~# '\s'
 endfunction
 
-" Use <c-space> to trigger completion.
-inoremap <silent><expr> <c-space> coc#refresh()
+" Use <c-m> to trigger completion.
+inoremap <silent><expr> <c-m> coc#refresh()
 
 " Use <cr> to confirm completion, `<C-g>u` means break undo chain at current
 " position. Coc only does snippet and additional edit on confirm.
@@ -442,12 +441,21 @@ xmap if <Plug>(coc-funcobj-i)
 xmap af <Plug>(coc-funcobj-a)
 omap if <Plug>(coc-funcobj-i)
 omap af <Plug>(coc-funcobj-a)
+xmap ic <Plug>(coc-classobj-i)
+xmap ac <Plug>(coc-classobj-a)
+omap ic <Plug>(coc-classobj-i)
+omap ac <Plug>(coc-classobj-a)
 
-" Use <TAB> for selections ranges.
-" NOTE: Requires 'textDocument/selectionRange' support from the language server.
-" coc-tsserver, coc-python are the examples of servers that support it.
-nmap <silent> <TAB> <Plug>(coc-range-select)
-xmap <silent> <TAB> <Plug>(coc-range-select)
+" Remap <C-f> and <C-b> for scroll float windows/popups.
+nnoremap <expr><C-f> coc#float#has_scroll() ? coc#float#scroll(1) : "\<C-f>"
+nnoremap <expr><C-b> coc#float#has_scroll() ? coc#float#scroll(0) : "\<C-b>"
+inoremap <expr><C-f> coc#float#has_scroll() ? coc#float#scroll(1) : "\<Right>"
+inoremap <expr><C-b> coc#float#has_scroll() ? coc#float#scroll(0) : "\<Left>"
+
+" Use CTRL-S for selections ranges.
+" Requires 'textDocument/selectionRange' support of language server.
+nmap <silent> <C-s> <Plug>(coc-range-select)
+xmap <silent> <C-s> <Plug>(coc-range-select)
 
 " Add `:Format` command to format current buffer.
 command! -nargs=0 Format :call CocAction('format')
@@ -480,6 +488,8 @@ nnoremap <silent> <space>j  :<C-u>CocNext<CR>
 nnoremap <silent> <space>k  :<C-u>CocPrev<CR>
 " Resume latest coc list.
 nnoremap <silent> <space>p  :<C-u>CocListResume<CR>
+" https://github.com/fannheyward/coc-marketplace
+nnoremap <silent> <space>m  :<C-u>CocList marketplace<cr>
 
 " COC translator
 " popup
@@ -500,7 +510,7 @@ inoremap <silent><expr> <cr> pumvisible() ? coc#_select_confirm()
     \: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
 
 " Use <C-l> for trigger snippet expand.
-imap <c-f> <Plug>(coc-snippets-expand)
+imap <c-l> <Plug>(coc-snippets-expand)
 " Use <C-j> for select text for visual placeholder of snippet.
 vmap <c-f> <Plug>(coc-snippets-select)
 " Use <C-j> for jump to next placeholder, it's default of coc.nvim
@@ -509,17 +519,19 @@ let g:coc_snippet_next = '<c-f>'
 let g:coc_snippet_prev = '<c-b>'
 " Use <C-j> for both expand and jump (make expand higher priority.)
 imap <C-f> <Plug>(coc-snippets-expand-jump)
+" Use <leader>x for convert visual selected code to snippet
+xmap <leader>x  <Plug>(coc-convert-snippet)
 
 "================ Quickly Compile==============="
 
-map <F5> :call CompileAndRun()<CR>
+nmap <silent> <F5> :call CompileAndRun()<CR>
 func! CompileAndRun()
     exec "w"
     if &filetype == 'c'
-        exec "!g++ % -o %<"
+        exec "!gcc % -o %<"
         exec "!time ./%<"
     elseif &filetype == 'cpp'
-        exec "!g++ % -o %<"
+        exec "!g++ -g -std=c++11 -O2 -Wall % -o %<"
         exec "!time ./%<"
     elseif &filetype == 'java'
         exec "!javac %"
@@ -588,7 +600,6 @@ noremap <space><space> :call quickui#menu#open()<cr>
 
 "===================Notes and Tips=============="
 " <F5> is compile and run
-"<F7> is run flake8 check
 "<F12> is run latex preview
 
 " Command + motion, here are some useful command, all this combination can be repeated by `.`
@@ -601,24 +612,27 @@ noremap <space><space> :call quickui#menu#open()<cr>
 " ds' delete surrounding ''
 " cs'" change surrounding from '' to ""
 " dst delete surrounding html tag
-
-" viP visual select inside block body like clauses in `class`, `def` in Python.
-" vaP visual select a entire block.
 " vip visual select a paragraph.
 " vis visual select a sentenct.
 " viw visual select a word.
 " vi) visual select content inside a pair of parantheses.
 " va) visual select content inside parantheses including parantheses.
+" viP visual select inside block body like clauses in `class`, `def` in Python.
+" vaP visual select a entire block.
 
 " ]m move to next `class`, `def` in Python
 " [m move to previous `class, `def` in Python
 
-" <leader>vs send command to tmux pane
+" <C-W>N to scroll terminal in vim, a to continue command line
+" :vert term open a vertical terminal
 
-" luafile $HOME/.config/nvim/plugins.lua
-
-"===================Command memo ==============="
 " Change math surrounding from markdown style to jekyll style
 " i.e. $$ \alpha $$ to \\( \alpha \\)
 " %s/\$\$\(.\{-}\)\$\$/\\\\( \1 \\\\\)/gc
 
+" <C-c><C-C> to send text from vim to another terminal by vim-slime
+" https://github.com/jpalardy/vim-slime
+
+" <C-y>, to use emmet
+
+" <C-l> to use snippet
