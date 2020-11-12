@@ -35,8 +35,13 @@ set incsearch
 
 " Set mouse support
 set mouse=a
+map <ScrollWheelUp> <C-y>
+map <ScrollWheelDown> <C-e>
 
 filetype plugin indent on
+
+packadd termdebug
+let g:termdebug_wide=1
 
 "==================Folding======================"
 "Enable folding"
@@ -54,11 +59,12 @@ set list listchars=extends:❯,precedes:❮,tab:▸\ ,trail:˽
 
 let python_highlight_all=1
 
-colorscheme atom-dark-256
+" colorscheme atom-dark-256
+colorscheme gruvbox
+set background=dark
 highlight LineNr ctermbg=bg
 
-" airline theme
-let g:airline_theme='dark'
+let g:airline_theme='gruvbox'
 let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#tabline#left_sep = ' '
 let g:airline#extensions#tabline#left_alt_sep = '|'
@@ -115,22 +121,16 @@ set guioptions-=R
 augroup FileTypeIndent
     au!
     autocmd FileType scheme,sql,cpp,c setlocal expandtab shiftwidth=2 softtabstop=2 tabstop=8 autoindent
-    autocmd FileType vim,html,scss,css,javascript,yml,java setlocal expandtab shiftwidth=4 softtabstop=4 tabstop=8 autoindent
+    autocmd FileType vim,scss,css,javascript,yml,java setlocal expandtab shiftwidth=4 softtabstop=4 tabstop=8 autoindent
     autocmd FileType make setlocal noexpandtab shiftwidth=8 softtabstop=0
 augroup END
-
-"==================Make========================="
-autocmd FileType cpp setlocal makeprg=g++\ -g\ -std=c++11\ -O2\ -Wall\ %\ -o\ %<
-
-" Set path for browsing header files with gf command
-let &path.="src/include,/usr/local/include,/usr/include"
 
 "=====================Mappings=================="
 "Make it easy to edit the Vimrc file"
 nnoremap <Leader>ev :tabedit $MYVIMRC<cr> 
 
 " Toggle highlighting of search
-nmap <Leader><space> :set hlsearch!<cr>
+nnoremap <Leader><space> :nohlsearch<cr>
 
 "Make it easy to Add blank line"
 nnoremap<C-J> mmo<esc>`m
@@ -151,12 +151,6 @@ nnoremap <Leader>ff /\<<C-r><C-w>\><cr>
 "Set map to replace word under current cursor
 " nnoremap <Leader>fs :%s/\<<C-r><C-w>\>/
 " nnoremap <Leader>fg :%s/\<<C-r><C-w>\>//g<Left><Left>
-
-" Set map to comments for different language
-autocmd FileType python vnoremap <silent> # :s/^/# /<cr>:noh<cr>
-autocmd FileType python vnoremap <silent> -# :s/^# //<cr>:noh<cr>
-autocmd FileType javascript vnoremap <silent> # :s@^@// @<cr>:noh<cr>
-autocmd FileType javascript vnoremap <silent> -# :s@^// @@<cr>:noh<cr>
 
 "Set map to paste current date in jekyll posts
 nnoremap <leader>dt "=strftime('%Y-%m-%d %H:%M:%S %z')<CR>P
@@ -185,6 +179,16 @@ nnoremap <leader>b :TagbarToggle<CR>
 
 " Transform py2 print to py2 print
 nmap <leader>3 :%s/\(print\) \(.*$\)/\1(\2)/gc
+
+" Maps for fzf
+nnoremap <c-p><c-p> :Files<cr>
+nnoremap <c-p>b :Buffers<cr>
+nnoremap <c-p>m :Marks<cr>
+nnoremap <c-p>w :Windows<cr>
+nnoremap <c-p>c :Commits<cr>
+nnoremap <c-p>/ :History/<cr>
+nnoremap <c-p>? :Helptags<cr>
+nnoremap <c-p>t :Tags<cr>
 
 "===================abbreviate=================="
 "shortcut for main in python
@@ -299,7 +303,7 @@ let g:tmuxline_preset = {
 " Now, use comma vs to send selected region or single line to pane 0.1
 let g:slime_target = "tmux"
 let g:slime_python_ipython = 1
-let g:slime_default_config = {"socket_name": get(split($TMUX, ","), 0), "target_pane": ":.2"}
+let g:slime_default_config = {"socket_name": get(split($TMUX, ","), 0), "target_pane": ":.1"}
 let g:slime_dont_ask_default = 1
 
 " Start braceless
@@ -394,7 +398,7 @@ nmap <silent> ]g <Plug>(coc-diagnostic-next)
 nmap <silent> gd <Plug>(coc-definition)
 nmap <silent> gy <Plug>(coc-type-definition)
 nmap <silent> gi <Plug>(coc-implementation)
-nmap <silent> gr <Plug>(coc-references)
+nmap <silent> gv <Plug>(coc-references)
 
 " Use K to show documentation in preview window.
 nnoremap <silent> K :call <SID>show_documentation()<CR>
@@ -414,8 +418,8 @@ autocmd CursorHold * silent call CocActionAsync('highlight')
 nmap <leader>rn <Plug>(coc-rename)
 
 " Formatting selected code.
-xmap <leader>f  <Plug>(coc-format-selected)
-nmap <leader>f  <Plug>(coc-format-selected)
+xmap <leader>F  <Plug>(coc-format-selected)
+nmap <leader>F  <Plug>(coc-format-selected)
 
 augroup mygroup
 autocmd!
@@ -529,10 +533,15 @@ func! CompileAndRun()
     exec "w"
     if &filetype == 'c'
         exec "!gcc % -o %<"
-        exec "!time ./%<"
+        " exec "!time ./%<"
+        exec "term ./%<"
     elseif &filetype == 'cpp'
-        exec "!g++ -g -std=c++11 -O2 -Wall % -o %<"
-        exec "!time ./%<"
+        " exec "!g++ -g -std=c++11 -O2 -Wall % -o %<"
+        " exec "!time ./%<"
+        exec "make"
+        exec "term ./%<"
+        " exec "AsyncTask file-build"
+        " exec "AsyncTask file-run"
     elseif &filetype == 'java'
         exec "!javac %"
         exec "!time java %<"
@@ -597,6 +606,13 @@ let g:quickui_show_tip = 1
 
 " hit space twice to open menu
 noremap <space><space> :call quickui#menu#open()<cr>
+
+" automatically open quickfix window when AsyncRun command is executed
+" set the quickfix window 6 lines height.
+let g:asyncrun_open = 6
+
+" ring the bell to notify you job finished
+let g:asyncrun_bell = 1
 
 "===================Notes and Tips=============="
 " <F5> is compile and run

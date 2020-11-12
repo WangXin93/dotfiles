@@ -49,9 +49,11 @@ Plug 'rafi/awesome-vim-colorschemes'
 Plug 'danilamihailov/vim-tips-wiki'
 " Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
+Plug 'thinca/vim-quickrun'
 Plug 'skywind3000/vim-quickui'
+Plug 'skywind3000/asyncrun.vim'
+Plug 'skywind3000/asynctasks.vim'
 Plug 'voldikss/vim-floaterm'
-" Plug 'gilligan/vim-lldb'
 " Plug 'vim-scripts/Conque-GDB'
 
 " Initialize plugin system
