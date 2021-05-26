@@ -5,6 +5,8 @@
 This repository saves my awesome dotfiles across different platform. It aims to provide the following functions:
 
 - [ ] A dotfile manager for installation.
+  - [ ] install ``fzf``
+  - [ ] install ``autojump``
 - [ ] ``vim`` customization.
   - [ ] file browser
   - [ ] file search
